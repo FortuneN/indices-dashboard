@@ -9,15 +9,50 @@
     <body class="ng-cloak" layout="column" ng-controller="appController">
         
         <md-toolbar>
-            <h3 class="app-title">Stock Indices</h3>
+            <h3 class="app-title">Stock Indices <span ng-show="offline">(offline)</span></h3>
         </md-toolbar>
 
-        <div class="container" layout="row" flex>
-            Offline : {{offline}}
-            <hr/>
-            Data : {{data}}
-            <hr/>
-            Error : {{error}}
+        <div class="container" layout="row">
+            <div class="indices-table-container" layout="row">
+                <table class="indices-table">
+                    <thead>
+                        <tr>
+                            <th class="index-name">Name</th>
+                            <th class="index-rp">RP</th>
+                            <th class="index-move">Move</th>
+                            <th class="index-move-percent">Move%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="i in data1">
+                            <th class="index-name">{{i.name}}</th>
+                            <td class="index-rp">{{i.rp}}</th>
+                            <td class="index-move" ng-class="{'index-move-down':(i.move[0] === '-')}">{{i.move}}</th>
+                            <td class="index-move-percent" ng-class="{'index-move-down':(i.movePercent[0] === '-')}">{{i.movePercent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="indices-table-container" layout="row">
+                <table class="indices-table">
+                    <thead>
+                        <tr>
+                            <th class="index-name">Name</th>
+                            <th class="index-rp">RP</th>
+                            <th class="index-move">Move</th>
+                            <th class="index-move-percent">Move%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="i in data2">
+                            <th class="index-name">{{i.name}}</th>
+                            <td class="index-rp">{{i.rp}}</th>
+                            <td class="index-move" ng-class="{'index-move-down':(i.move[0] === '-')}">{{i.move}}</th>
+                            <td class="index-move-percent" ng-class="{'index-move-down':(i.movePercent[0] === '-')}">{{i.movePercent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         
         <!-- scripts -->

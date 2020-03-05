@@ -4,13 +4,13 @@ app.service('dataSource', ['$q', '$http', '$interval', function ($q, $http, $int
 
     var $this = this,
         dataCallbacks = [],
-        apiUrl = '/getData',
-        errorCallbacks = [],
         offlineCallbacks = [], 
         domParser = new DOMParser(),
         dataFetchMilliseconds = 1000 * 60 * 5,
-        storage = new Persist.Store('MoyoTechChallenge');
-        
+        store = new Persist.Store('MoyoTechChallenge'),
+        corsPassThrough = 'https://cors-anywhere.herokuapp.com',
+        apiUrl = corsPassThrough + '/https://www.sharenet.co.za/v3/indices.php';
+
     // private methods
     
     function getDataFromStore () {
@@ -34,55 +34,37 @@ app.service('dataSource', ['$q', '$http', '$interval', function ($q, $http, $int
             });
 
         });
+		
+		//data.sort(function (a, b) {
+		//	return a.name.localeCompare(b.name);
+		//});
 
         return data;
     }
     
     function fetchData() {
-        $http.get(apiUrl).then(function (response) {
+        $http.get(apiUrl, {
+            headers:{
+                'x-requested-with': '-'
+            }
+        }).then(function (response) {
             
             var parsedData = parseHtmlData(response.data);
 
-            storage.set('data', parsedData);
+            store.set('data', JSON.stringify(parsedData));
             
             // notify listeners
             
             dataCallbacks.forEach(function (callback) {
-                callback(storage.get('data', []));
+                callback(getDataFromStore());
             });
             
         }, function (response) {
-            
-            var message = null,
-                statusTextFormated = response.statusText ? "[" + response.statusText + "] " : "";
 
-            // offline
+            // notify listeners
 
-            if (response.status === -1) {
-                errorCallbacks.forEach(function (callback) {
-                    callback(storage.get('data', []));
-                });
-                return;
-            };
-
-            // all other errors
-            
-            if (response.status === 404) {
-                message = statusTextFormated + "Server endpoint not found '" + apiUrl + "'";
-            }
-            else if (response.status === 403) {
-                message = statusTextFormated + "You are not allowed to perfom this action";
-            }
-            else if (response.data && angular.isString(response.data)) {
-                message = response.data.trim();
-            }
-            
-            if (!message) {
-                message = response.statusText || 'Unknown error';
-            }
-            
-            errorCallbacks.forEach(function (callback) {
-                callback(message);
+            offlineCallbacks.forEach(function (callback) {
+                callback(getDataFromStore());
             });
         });
     }
@@ -91,7 +73,7 @@ app.service('dataSource', ['$q', '$http', '$interval', function ($q, $http, $int
     
     $this.getData = function () {
         return $q(function (resolve) {
-            resolve(storage.get('data', []));
+            resolve(getDataFromStore());
         });
     };
 
@@ -111,15 +93,6 @@ app.service('dataSource', ['$q', '$http', '$interval', function ($q, $http, $int
         }
 
         offlineCallbacks.push(callback);
-    };
-
-    $this.onError = function (callback) {
-        
-        if (!angular.isFunction(callback)) {
-            throw "callback is required and must be a function";
-        }
-
-        errorCallbacks.push(callback);
     };
 
     // initialize
