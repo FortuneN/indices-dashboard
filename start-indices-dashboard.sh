@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# sudo this script
-
-[ "$UID" -eq 0 ] || exec sudo "$0" "$@"
-
 # start web app
 
 cd /usr/share/indices-dashboard
