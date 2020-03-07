@@ -7,9 +7,10 @@
 # install
 
 chmod +x *.sh
+apt-get install unclutter xdotool -y
 mkdir -p /usr/share/indices-dashboard
 cp -r -f ./** /usr/share/indices-dashboard
-ln -s -f /usr/share/indices-dashboard/start-indices-dashboard.sh /etc/init.d/start-indices-dashboard.sh
+ln -f /usr/share/indices-dashboard/start-indices-dashboard.sh /etc/init.d/start-indices-dashboard.sh
 
 # restart
 
