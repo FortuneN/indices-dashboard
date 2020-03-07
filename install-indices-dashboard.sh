@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# demand higher privilage
+
+[ "$UID" -eq 0 ] || exec sudo "$0" "$@"
+
 # install
 
 chmod +x *.sh
