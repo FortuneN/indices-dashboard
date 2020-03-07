@@ -3,7 +3,7 @@
 # start web app
 
 cd /usr/share/indices-dashboard
-python -m SimpleHTTPServer
+nohup python -m SimpleHTTPServer
 
 # start chromium
 
