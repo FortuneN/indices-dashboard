@@ -5,10 +5,13 @@
 mkdir /usr/share/dashboard
 cp -r ./** /usr/share/dashboard
 
+# deploy web app startup script
+
+cp ./start-web-app.sh /etc/init.d
+
 # setup kiosk mode
 
 echo "
-/usr/share/dashboard/start.sh
 /usr/bin/chromium --kiosk --ignore-certificate-errors --disable-restore-session-state \"https://www.google.com\"
 " > /etc/xdg/lxsession/LXDE-pi/autostart
 
