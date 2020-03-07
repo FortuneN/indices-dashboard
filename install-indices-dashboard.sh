@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# demand higher privilage
+# sudo this script
 
 [ "$UID" -eq 0 ] || exec sudo "$0" "$@"
 
