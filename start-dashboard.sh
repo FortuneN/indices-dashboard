@@ -2,7 +2,6 @@
 
 # start web app
 
-cd /usr/share/indices-dashboard
 nohup python -m SimpleHTTPServer &
 
 # disable blank screen
