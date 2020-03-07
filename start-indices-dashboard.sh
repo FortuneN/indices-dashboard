@@ -2,7 +2,7 @@
 
 # start web app
 
-cd /usr/share/dashboard
+cd /usr/share/indices-dashboard
 python -m SimpleHTTPServer
 
 # start chromium
