@@ -7,7 +7,7 @@ cp -r ./** /usr/share/dashboard
 
 # deploy web app startup script
 
-cp ./start-web-app.sh /etc/init.d
+cp ./start-dashboard-app.sh /etc/init.d
 
 # setup kiosk mode
 
