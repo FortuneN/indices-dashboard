@@ -6,7 +6,7 @@
 
 # install
 
-apt-get install python chromium-browser nohup unclutter -y
+apt-get install unclutter -y
 
 chmod +x *.sh
 mkdir -p /usr/share/indices-dashboard
