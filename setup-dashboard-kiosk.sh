@@ -1,19 +1,13 @@
 #!/bin/bash
 
-# copy files to 'deployment' location
+# copy files to deployment location
 
 mkdir /usr/share/dashboard
-cp -r ./** /usr/share/dashboard
+cp -r -f ./** /usr/share/dashboard
 
 # deploy web app startup script
 
-cp ./start-dashboard-app.sh /etc/init.d
-
-# setup kiosk mode
-
-echo "
-/usr/bin/chromium --kiosk --ignore-certificate-errors --disable-restore-session-state \"https://www.google.com\"
-" > /etc/xdg/lxsession/LXDE-pi/autostart
+ln -s -f /etc/init.d/start-dashboard.sh /usr/share/dashboard/start-dashboard.sh
 
 # restart computer
 
